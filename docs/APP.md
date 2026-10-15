@@ -66,8 +66,7 @@ reductions. In a controlled 320×144 phone test, median warm frame calls improve
 from 2.010 s to 1.247 s (1.61×), with CPU-identical output. This is still below
 one completed model call per second. Frozen comparisons reuse scene targets
 between captures; dragging or changing settings refreshes the scene.
-See [validation](VALIDATION.md) and [native accelerator investigation](NATIVE_BACKENDS.md)
-for timings, limits and the separate Qualcomm NPU option.
+See [measured performance](BENCHMARKS.md) for timings and limits.
 
 
 See [build instructions](BUILD.md) and [measured performance](BENCHMARKS.md).
