@@ -1,0 +1,13 @@
+DLSS5 Android Test / Phoenix Museum
+Copyright 2026 Razvan Manolache
+
+Android museum source derived from the DLSS5 Quality vs Performance Gallery.
+Gallery scene construction and animation are generated from the pinned gallery
+submodule. Phoenix runtime and headers come from the pinned Phoenix submodule
+and its separately downloaded SDK. Both projects retain their own licenses.
+
+Gallery scans, Rocketbox characters and textures are separate downloads. Their
+credits and licenses are copied into local APKs by prepare.py. No model weights,
+NVIDIA DLLs, museum asset pack or third-party SDK binaries are distributed in
+this repository. Project source licensing does not license those separate inputs.
+NVIDIA and DLSS are trademarks of NVIDIA. This is an independent experiment.

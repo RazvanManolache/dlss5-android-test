@@ -1,0 +1,6 @@
+{
+  "weight_source": {
+    "path": "/absolute/path/to/your/nvngx_dlssnr.dll",
+    "sha256": "e16bcf15e16e13f527491cdf7845b2fe6521a738d8f7c9c721866a8496e1fc8e"
+  }
+}

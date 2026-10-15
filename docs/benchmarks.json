@@ -1,0 +1,185 @@
+{
+  "schema": 1,
+  "date": "2026-10-15",
+  "phoenix_commit": "4c9b75ff42b6945352f66f309dc84404e498f4cf",
+  "workload": {
+    "width": 320,
+    "height": 144,
+    "working_width": 320,
+    "working_height": 320,
+    "passes": 1,
+    "repeats": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    ],
+    "history": false,
+    "controls": {
+      "auto_mask": true,
+      "intensity": 1.0,
+      "local_structure": 1.0,
+      "local_tone": 1.0,
+      "seed": 0,
+      "skin_structure": -1.0,
+      "style": 0
+    },
+    "input_sha256": "f8b6fe57aef8fd1c19ec95892b68d656b570775e4b54db0cb38f3e8f315052e2",
+    "motion_sha256": "0d6a6c80a15bbb686f12f4e84c7c8180725c7da8ac657d27e328bda9f3c0e606",
+    "model_sha256": "e16bcf15e16e13f527491cdf7845b2fe6521a738d8f7c9c721866a8496e1fc8e"
+  },
+  "phone_headless": {
+    "device": "Adreno 735 / SM8635",
+    "width": 320,
+    "height": 144,
+    "working_surface": [
+      320,
+      320
+    ],
+    "passes": 1,
+    "repeats": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    ],
+    "history": false,
+    "profiling": "7 submission spans; first call excluded from warm medians",
+    "scope": "Serial headless phone runs, same input and native libraries, baseline versus optimized compatibility shaders. Not sustained thermal or app presentation FPS.",
+    "results": {
+      "baseline": {
+        "cold_call_ms": 31003.33603,
+        "warm_call_ms": [
+          2141.00703,
+          2213.303802,
+          2212.420416,
+          1872.109323,
+          1878.361979,
+          1876.111093
+        ],
+        "warm_gpu_ms": [
+          1914.5809949239651,
+          1915.1504219933965,
+          1917.873494843582,
+          1850.0717777488978,
+          1849.9225069192084,
+          1849.7778715060726
+        ],
+        "median_call_ms": 2009.6845045,
+        "median_gpu_ms": 1882.3263863364314,
+        "output_sha256": "8c6bb14d3e2198dadf68f314ba44afd1a52a633d5f4bba582d338c6f020d6eee"
+      },
+      "optimized": {
+        "cold_call_ms": 30087.454832,
+        "warm_call_ms": [
+          1603.002031,
+          1121.29099,
+          1133.519426,
+          1262.779114,
+          2034.748593,
+          1231.389531
+        ],
+        "warm_gpu_ms": [
+          1284.9409582127037,
+          1100.366796052242,
+          1100.9722127041282,
+          1101.364035611229,
+          1415.3179341963387,
+          1099.2564835793496
+        ],
+        "median_call_ms": 1247.0843224999999,
+        "median_gpu_ms": 1101.1681241576784,
+        "output_sha256": "8c6bb14d3e2198dadf68f314ba44afd1a52a633d5f4bba582d338c6f020d6eee"
+      }
+    },
+    "warm_call_speedup": 1.611506510218358,
+    "warm_gpu_speedup": 1.7093905508537017,
+    "cpu_reference_bit_exact": true
+  },
+  "pc_headless": {
+    "device": "NVIDIA GeForce RTX 5080",
+    "os": "Windows",
+    "date": "2026-10-15",
+    "backend": "vulkan-cpp",
+    "runtime": "Phoenix 0.8.1-beta",
+    "cold_call_ms": 7796.1497,
+    "warm_call_ms": [
+      77.8317,
+      77.194,
+      77.1726,
+      76.9281,
+      77.704,
+      77.092
+    ],
+    "warm_gpu_ms": [
+      74.678816,
+      74.68995199999999,
+      74.68384,
+      74.674304,
+      74.748864,
+      74.65731199999999
+    ],
+    "median_call_ms": 77.1833,
+    "median_gpu_ms": 74.68132800000001,
+    "output_sha256": "8c6bb14d3e2198dadf68f314ba44afd1a52a633d5f4bba582d338c6f020d6eee",
+    "vulkan_workgroup_compatibility": true,
+    "vulkan_workgroup_fp8": false,
+    "vulkan_fallback_tile": "32x32",
+    "profiling": "frame; submission spans"
+  },
+  "phone_screen_on": {
+    "backend": "vulkan",
+    "compatibility_enabled": true,
+    "processing_size": [
+      320,
+      144
+    ],
+    "warm_call_ms": [
+      1462.776926,
+      1463.51651,
+      1461.822812,
+      1464.732864,
+      1463.055469,
+      1465.481718,
+      1465.606822,
+      1466.173854
+    ],
+    "median_call_ms": 1464.124687,
+    "display_fps": [
+      12.875836534649888,
+      13.440677912310507,
+      11.294173007108725,
+      10.655729739323343,
+      12.545936436583885,
+      16.8112360114966,
+      11.926997832785776,
+      10.68500232060442
+    ],
+    "median_display_fps": 12.23646713468483,
+    "completed_model_fps": [
+      0.6548292149126984,
+      0.6547003528159578,
+      0.6552173313135037,
+      0.6547922691724348,
+      0.6547751850739536,
+      0.654444888736172,
+      0.6546166852734655,
+      0.6543229538392606
+    ],
+    "median_completed_model_fps": 0.6547377689449557,
+    "scope": "Frozen 320px comparison, screen on; display proof I/O disabled during timing. Not animated-scene or sustained thermal performance."
+  },
+  "comparison": {
+    "pc_over_phone_warm_call_speedup": 16.1574371982022,
+    "equal_output_sha256": true,
+    "scope": "Matching input, model, controls, portable host-plane C API and warm-call boundary; device-specific Vulkan kernels, drivers and profiling spans differ. Six post-first-call samples per headless process, serial runs; no sustained thermal or end-to-end game FPS claim."
+  }
+}

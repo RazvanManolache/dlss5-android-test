@@ -1,0 +1,6 @@
+[submodule "external/phoenix"]
+	path = external/phoenix
+	url = https://github.com/RazvanManolache/dlss5-phoenix-addon.git
+[submodule "external/gallery"]
+	path = external/gallery
+	url = https://github.com/RazvanManolache/dlss5-quality-vs-performance-gallery.git
