@@ -1,0 +1,143 @@
+{
+  "date": "2026-10-15",
+  "source_commit": "f31c483",
+  "device": "Motorola Edge 50 Ultra / SM8635 / Adreno 735",
+  "app_version": "0.2.0",
+  "apk_sha256": "8b995291f8a0ec9dcbe394d406ed5db740ece3ceb8c9e807a3a4ba38066bb64a",
+  "scope": "Actual physical phone UI and pixel checks; these single-call timings are not the paired benchmark",
+  "fast_auto_compatibility": "Fast processed successfully with compatibility switch off; runtime reported compatibility true",
+  "ui_checks": {
+    "menu_fast_switch_visible": true,
+    "compatibility_and_fast_toggled_by_taps": true,
+    "fast_to_exact_to_fast_completed": true,
+    "actual_completed_fast_exact_badges_visually_checked": true,
+    "camera_drag_refresh": {
+      "drag_injected": true,
+      "start": [
+        1600,
+        550
+      ],
+      "end": [
+        1950,
+        620
+      ],
+      "duration_ms": 450,
+      "before_serial": 167,
+      "after_serial": 169,
+      "before_source_sha256": "fb79973a4ca82e80ecf8cde90402ed2341733aea46f4d52b1cf4cad96dbf6afa",
+      "after_source_sha256": "4f1fd90979caced5593a085265a2afbc188f1a8b2d28f5b3ba21ab663fa1d78f",
+      "new_processed_source_after_drag": true
+    },
+    "pinch": "not exercised by this automated check"
+  },
+  "switch_receipts": {
+    "fast": {
+      "fast_selected": true,
+      "compatibility_selected": true,
+      "actual_fast_math": true,
+      "actual_arithmetic": "approximate-hardware",
+      "actual_result_serial": 127,
+      "single_call_ms": 880.223802,
+      "error": "",
+      "render_error": ""
+    },
+    "exact_first_call": {
+      "fast_selected": false,
+      "compatibility_selected": true,
+      "actual_fast_math": false,
+      "actual_arithmetic": "reference",
+      "actual_result_serial": 91,
+      "single_call_ms": 19305.205722,
+      "error": "",
+      "render_error": ""
+    },
+    "exact_warm_snapshot": {
+      "fast_selected": false,
+      "compatibility_selected": true,
+      "actual_fast_math": false,
+      "actual_arithmetic": "reference",
+      "actual_result_serial": 106,
+      "single_call_ms": 1142.098906,
+      "error": "",
+      "render_error": ""
+    }
+  },
+  "pixel_checks": {
+    "fast_gl": {
+      "actual_display_sha256": "6162b32c81de16a0c3e49397dfcc852b14e62f43001b3b63a02eb6aac06605a6",
+      "width": 2712,
+      "height": 1220,
+      "processing_width": 320,
+      "processing_height": 144,
+      "maximum_channel_error": 1,
+      "mean_channel_error": 0.029835723036252558,
+      "channels_outside_two_levels": 0,
+      "checked_region": "entire GL display",
+      "original_processed_mean_byte_difference": 4.515227141203703,
+      "original_processed_changed_channels": 127042,
+      "result_serial": 53,
+      "right_side_displays_saved_phoenix_result": true
+    },
+    "exact_gl": {
+      "actual_display_sha256": "c8aad87b359d7894ba0a30dbec2f9cba58344135f1f5fe437f7197621c5ca579",
+      "width": 2712,
+      "height": 1220,
+      "processing_width": 320,
+      "processing_height": 144,
+      "maximum_channel_error": 1,
+      "mean_channel_error": 0.029967096249012688,
+      "channels_outside_two_levels": 0,
+      "checked_region": "entire GL display",
+      "original_processed_mean_byte_difference": 8.016073495370371,
+      "original_processed_changed_channels": 131785,
+      "result_serial": 105,
+      "right_side_displays_saved_phoenix_result": true
+    },
+    "fast_android_compositor": {
+      "actual_display_sha256": "aae3e937fefd9710f1b4dd9274e9f48a7615ea8135871a2be5996e5675b9446b",
+      "width": 2712,
+      "height": 1220,
+      "processing_width": 320,
+      "processing_height": 144,
+      "maximum_channel_error": 1,
+      "mean_channel_error": 0.035473766903460595,
+      "channels_outside_two_levels": 0,
+      "checked_region": "full-width scene strip from 24% to 78% height; excludes Android HUD",
+      "original_processed_mean_byte_difference": 4.515227141203703,
+      "original_processed_changed_channels": 127042,
+      "result_serial": 159,
+      "right_side_displays_saved_phoenix_result": true
+    },
+    "exact_android_compositor": {
+      "actual_display_sha256": "ecce1521b1cbe984ff274e3d17717638067909d9646414d31a23e2044c4b0070",
+      "width": 2712,
+      "height": 1220,
+      "processing_width": 320,
+      "processing_height": 144,
+      "maximum_channel_error": 1,
+      "mean_channel_error": 0.035192508836874796,
+      "channels_outside_two_levels": 0,
+      "checked_region": "full-width scene strip from 24% to 78% height; excludes Android HUD",
+      "original_processed_mean_byte_difference": 8.016073495370371,
+      "original_processed_changed_channels": 131785,
+      "result_serial": 121,
+      "right_side_displays_saved_phoenix_result": true
+    },
+    "after_drag_gl": {
+      "actual_display_sha256": "46f6817067ab7e0e1fd13955454a925f873679cff187040c1fb812aea047a6a0",
+      "width": 2712,
+      "height": 1220,
+      "processing_width": 320,
+      "processing_height": 144,
+      "maximum_channel_error": 1,
+      "mean_channel_error": 0.024825507358511856,
+      "channels_outside_two_levels": 0,
+      "checked_region": "entire GL display",
+      "original_processed_mean_byte_difference": 5.064532696759259,
+      "original_processed_changed_channels": 128858,
+      "result_serial": 169,
+      "right_side_displays_saved_phoenix_result": true
+    }
+  },
+  "cold_start_note": "First exact call after session recreation took 19305 ms; later warm snapshot was 1142 ms. Includes cold preparation; do not compare first-call latency with warm-call figures."
+}

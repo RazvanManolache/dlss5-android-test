@@ -20,6 +20,8 @@
 
 ![Matched phone Fast/Exact warm calls](fast-gpu.png)
 
+- **Physical phone UI checked:** Fast → Exact → Fast completes through the menu, badges identify the actual result, and a camera drag produces a fresh processed source. GL and Android compositor pixel checks match the saved Phoenix pair within one byte level. [UI receipt](fast-app-validation.json). The first Exact call after recreating its session took 19.3 s before later calls settled near 1.14 s; cold preparation is separate from the warm benchmark.
+
 ## Hexagon / QNN: implemented experiment, separate from the app backend
 
 - The phone executes a **real captured Phoenix projection** on **QNN HTP**, with **8-bit weights and 16-bit activations**, without CPU fallback. Its FP16 graph attempt was rejected by this device/runtime with validation error 3110. That is why the working experiment uses W8A16.

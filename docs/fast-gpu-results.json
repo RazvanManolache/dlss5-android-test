@@ -561,6 +561,7 @@
     "app_ci_result": "success",
     "phoenix_ci": "https://github.com/RazvanManolache/dlss5-phoenix-addon/actions/runs/38796490425",
     "phoenix_ci_result": "all five jobs passed",
-    "final_on_screen_switch_touch_pixel_check": "pending: phone locked; not claimed by headless numerical tests"
+    "final_on_screen_switch_touch_pixel_check": "passed: physical phone, Fast/Exact UI toggles, completed result labels, GL and compositor pixel checks, camera drag with a fresh processed source",
+    "on_screen_receipt": "fast-app-validation.json"
   }
 }
