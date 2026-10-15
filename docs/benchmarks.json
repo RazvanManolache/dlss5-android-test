@@ -181,5 +181,46 @@
     "pc_over_phone_warm_call_speedup": 16.1574371982022,
     "equal_output_sha256": true,
     "scope": "Matching input, model, controls, portable host-plane C API and warm-call boundary; device-specific Vulkan kernels, drivers and profiling spans differ. Six post-first-call samples per headless process, serial runs; no sustained thermal or end-to-end game FPS claim."
+  },
+  "pc_native": {
+    "device": "NVIDIA GeForce RTX 5080",
+    "os": "Windows",
+    "backend": "native RTX / D3D12",
+    "date": "2026-10-15",
+    "width": 1920,
+    "height": 1080,
+    "input": "Separate synthetic RGBA16F color / RG16F zero-motion fixture",
+    "passes": 1,
+    "repeats": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    ],
+    "frames_per_process": 128,
+    "excluded_warmup_frames_per_process": 32,
+    "aggregation": "Mean of process medians; native points are summaries, not individual frame samples",
+    "texture": {
+      "complete_call_ms": 4.262275,
+      "gpu_interval_ms": 3.8288,
+      "process_medians_ms": [
+        4.24295,
+        4.281599999999999
+      ]
+    },
+    "host_buffer": {
+      "complete_call_ms": 8.0012,
+      "gpu_interval_ms": 3.793888,
+      "process_medians_ms": [
+        8.0012
+      ]
+    },
+    "source": "https://github.com/RazvanManolache/dlss5-phoenix-addon/blob/4c9b75ff42b6945352f66f309dc84404e498f4cf/docs/NATIVE_LIBRARY_VALIDATION_2026-10-15.json",
+    "source_sha256": "4ba5a515f80f7b26b00bd0223dc3d528f40c99eb3c2485ae4425d7498135a817",
+    "scope": "Native performance context at 1080p, not a matching-input phone comparison. Texture API keeps data on GPU; host API includes uploads and readback. Not game FPS."
   }
 }

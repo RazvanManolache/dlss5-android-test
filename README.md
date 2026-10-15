@@ -15,19 +15,23 @@
 
 ### Your phone versus a PC. Place your bets.
 
-| Same 320×144 model input¹ | Warm call | Calls/second² |
+| Measured path / model input | Warm call | Calls/second² |
 | --- | ---: | ---: |
-| Adreno 735, before optimization | 2,010 ms | 0.50 |
-| Adreno 735, optimized | 1,247 ms | 0.80 |
-| RTX 5080, portable Vulkan | 77 ms | 12.96 |
+| Adreno 735, before optimization · 320×144¹ | 2,010 ms | 0.50 |
+| Adreno 735, optimized · 320×144¹ | 1,247 ms | 0.80 |
+| RTX 5080, portable Vulkan · 320×144¹ | 77 ms | 12.96 |
+| RTX 5080, native RTX host buffers · 1920×1080³ | 8.001 ms | 124.98 |
+| RTX 5080, native RTX D3D12 textures · 1920×1080³ | **4.262 ms** | **234.62** |
 
-- **1.61× faster on the phone. Still a slideshow.** PC: **16× faster**, identical output bytes.
+- **1.61× faster on the phone. Still a slideshow.** Portable Vulkan PC: **16× faster**, identical output bytes.
+- Native RTX does **1080p in 4.262 ms**. The phone has requested a transfer to the gift shop.
 - Screen-on: **0.65 Phoenix FPS**, **12.24 display FPS**. The museum moves faster than the thinking.
 - ¹ One pass, eight blocks once, 320×320 canvas, history reset; six warm calls. Device-specific Vulkan kernels differ.
-- ² `1000 / median ms`, not game FPS. [Samples and methods](docs/BENCHMARKS.md).
+- ² `1000 / reported warm ms`, not game FPS. [Samples and methods](docs/BENCHMARKS.md).
+- ³ Separate synthetic 1080p test; native summaries average process medians. Different input/API: **no matched phone/native speedup claimed**. Host buffers include transfers; textures stay on GPU.
 
 ![Measured phone optimization](docs/phone-optimization.png)
-![Measured PC versus phone model-call time](docs/phone-vs-pc.png)
+![Phone Vulkan, PC portable Vulkan and PC native RTX timings, with separate workload labels](docs/phone-vs-pc.png)
 
 ### Want to actually use DLSS? Start here.
 
