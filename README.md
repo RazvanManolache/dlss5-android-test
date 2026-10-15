@@ -10,6 +10,7 @@
 
 - Museum: 316 objects, 16 visitors, two animals. Drag to orbit; pinch to zoom.
 - **CPU / Vulkan** switch; optional **64/128-thread compatibility**. No sneaky CPU fallback.
+- **New: Fast GPU.** Approximate arithmetic, **860 vs 1,123 ms** in matched runs: **1.31× faster**. [Speed and image-error checks](docs/FAST_GPU.md).
 - Split/difference views, freeze comparisons and [all the knobs](docs/APP.md).
 - Separate **display / Phoenix FPS** counters. Repainting yesterday's result does not count as new intelligence.
 
@@ -30,10 +31,12 @@
 - ² `1000 / reported warm ms`, not game FPS. [Samples and methods](docs/BENCHMARKS.md).
 - ³ Separate synthetic 1080p test; native summaries average process medians. Different input/API: **no matched phone/native speedup claimed**. Host buffers include transfers; textures stay on GPU.
 
-![Measured phone optimization](docs/phone-optimization.png)
+![Measured matched Fast GPU versus Exact GPU calls on the phone](docs/fast-gpu.png)
 ![Phone Vulkan, PC portable Vulkan and PC native RTX timings, with separate workload labels](docs/phone-vs-pc.png)
 
 ### Want to actually use DLSS? Start here.
+
+- **NPU experiment:** a real Phoenix feed-forward batch runs on Hexagon in **9.43 ms**. A prototype subgraph, not full-model FPS. [What works](docs/FAST_GPU.md#hexagon--qnn-implemented-experiment-separate-from-the-app-backend).
 
 - [**Phoenix**](https://github.com/RazvanManolache/dlss5-phoenix-addon): runtime, libraries and serious optimization.
 - [**DLSS5 Everything**](https://github.com/RazvanManolache/DLSS5-Everything): Windows games, including the stubborn old ones.

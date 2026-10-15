@@ -17,9 +17,9 @@ plt.rcParams.update({'font.family':'DejaVu Sans', 'font.size':11, 'axes.spines.t
 phone = data['phone_headless']['results']
 
 
-def chart(rows, title, subtitle, filename, logarithmic=False, notes=None):
+def chart(rows, title, subtitle, filename, logarithmic=False, notes=None, xmax=2900):
     fig, ax = plt.subplots(figsize=(10,5.8 if len(rows)>2 else 4.6))
-    fig.subplots_adjust(left=.25,right=.86,top=.69,bottom=.25)
+    fig.subplots_adjust(left=.25,right=.86,top=.69,bottom=.31 if notes and len(rows)<=2 else .25)
     fig.text(.045,.91,title,fontsize=21,weight='bold')
     fig.text(.045,.81,subtitle,fontsize=11,color='#b3bdd4')
     for i,row in enumerate(rows):
@@ -29,7 +29,7 @@ def chart(rows, title, subtitle, filename, logarithmic=False, notes=None):
         left = 1 if logarithmic else 0
         ax.barh(i,value-left,left=left,color=color,height=.49,zorder=2)
         if samples:
-            offsets=[-.13,-.08,-.025,.025,.08,.13]
+            offsets=[-.13+.26*i/(len(samples)-1) for i in range(len(samples))] if len(samples)>1 else [0]
             ax.scatter(samples,[i+x for x in offsets],s=15,c='white',alpha=.7,zorder=3,linewidths=0)
         text = f'{value:.3f} ms' if value<10 else f'{value:,.0f} ms'
         ax.annotate(text,xy=(value,i),xytext=(10,0),textcoords='offset points',va='center',weight='bold',fontsize=12)
@@ -41,7 +41,7 @@ def chart(rows, title, subtitle, filename, logarithmic=False, notes=None):
         ax.xaxis.set_major_formatter(FuncFormatter(lambda v,p:f'{v:,.0f}'))
         ax.set_xlabel('Complete model call · milliseconds · logarithmic axis · lower is better',labelpad=12,fontsize=9)
     else:
-        ax.set_xlim(0,2900);ax.set_xlabel('Complete model call · milliseconds · lower is better',labelpad=12,fontsize=10)
+        ax.set_xlim(0,xmax);ax.set_xlabel('Complete model call · milliseconds · lower is better',labelpad=12,fontsize=10)
     ax.xaxis.grid(True,alpha=.13,zorder=0);ax.set_axisbelow(True)
     if notes:
         for y,line in zip([.115,.075,.035],notes):
@@ -66,3 +66,16 @@ chart([('Phone · Adreno 735\nVulkan · 320×144',phone['optimized']['warm_call_
           'Vulkan: same 320×144 input; six warm calls/run (dots). Native: separate 1920×1080 synthetic input.',
           'Native bars: process-median summaries, 96 warm frames/run; textures stay on GPU, host buffers include transfers.',
           'Complete calls, not game FPS. No phone/native speedup ratio. 15 Oct 2026 · details in docs/BENCHMARKS.md'])
+
+fast_data = json.loads((ROOT/'docs/fast-gpu-results.json').read_text(encoding='utf-8'))
+paired = fast_data['paired_vulkan']
+exact_samples = [sample for run in paired['runs'] if not run['fast'] for sample in run['warm_call_ms']]
+fast_samples = [sample for run in paired['runs'] if run['fast'] for sample in run['warm_call_ms']]
+chart([('Adreno 735\nExact GPU',exact_samples,'#db826b',paired['exact_call_ms']),
+       ('Adreno 735\nFast GPU',fast_samples,'#5acdb3',paired['fast_call_ms'])],
+      'Fast GPU: 23% less waiting.',
+      'Same full-model workload. Approximate arithmetic; the exact path stays available.',
+      'fast-gpu.png',notes=[
+          '320×144 input · 320×320 canvas · one pass · history reset · Exact / Fast / Fast / Exact',
+          'Bars = mean of process medians; dots = 12 warm calls/mode. First call in each process excluded.',
+          'Museum error: MAE 0.00703 / PSNR 40.95 dB. 15 Oct 2026 · methods and limits in docs/FAST_GPU.md'],xmax=1600)

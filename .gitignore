@@ -18,4 +18,10 @@ app/src/main/cpp/gallery_layout.inc
 *.so
 *.rgb32f
 *.rg32f
+*.f16
+*.f32
+*.u16
+*.onnx
+*.tflite
+*.pte
 *.log

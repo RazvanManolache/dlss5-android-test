@@ -1,5 +1,7 @@
 # Slideshow, quantified
 
+- The original samples below remain the historical comparison. The later [matched Fast/Exact study](FAST_GPU.md) measures **860 vs 1,123 ms** in ABBA order; its exact baseline was rerun alongside Fast mode. Do not use the older 1,247 ms sample as that experiment's denominator. Its separate QNN results cover a subgraph, not full-model inference.
+
 - **Measured 15 October 2026**, not estimated from GPU specifications. The sanitized [samples](benchmarks.json) and [chart script](../tools/plot_benchmarks.py) are included. The screenshot is a real screen-on phone capture, resized for this page.
 - **Phone:** Motorola Edge 50 Ultra, SM8635 / Adreno 735; Android Vulkan compatibility path. **PC:** NVIDIA GeForce RTX 5080, Windows, portable Phoenix Vulkan provider. Phoenix source: `4c9b75ff42b6945352f66f309dc84404e498f4cf` / SDK 0.8.1-beta.
 - Matching headless workload: the same RGB32F image and signed motion planes, 320×144 input, 320×320 internal canvas, one pass, `[1,1,1,1,1,1,1,1]` block repetitions, reset history and identical controls/model. Input, motion and model SHA-256 values are in the JSON. Private inputs are not redistributed.

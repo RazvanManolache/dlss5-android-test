@@ -12,8 +12,8 @@ import urllib.request
 import zipfile
 
 ROOT = Path(__file__).resolve().parent
-SDK_VERSION = '0.8.1-beta'
-SDK_SHA256 = '2731b260edde4f5c9be1c80806637b3ff32eaceef6e33551f730649685037107'
+SDK_VERSION = '0.8.2-android-preview.1'
+SDK_SHA256 = '7a5b786442e18d708330d7375fa354426c17b700c8bfa5b02c25114eeacdf82d'
 NDK_VERSION = '27.3.13750724'
 
 
@@ -25,7 +25,7 @@ def release_sdk():
     if not archive.exists():
         url = f'https://github.com/RazvanManolache/dlss5-phoenix-addon/releases/download/{SDK_VERSION}/{archive.name}'
         partial = archive.with_suffix('.partial')
-        print('Downloading model-free Phoenix SDK (3.7 MiB)', flush=True)
+        print('Downloading model-free Phoenix SDK (1.6 MiB)', flush=True)
         urllib.request.urlretrieve(url, partial)
         partial.replace(archive)
     if hashlib.sha256(archive.read_bytes()).hexdigest() != SDK_SHA256:

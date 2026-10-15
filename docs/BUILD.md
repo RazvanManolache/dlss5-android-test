@@ -26,7 +26,7 @@
   adb install -r dist/Phoenix-Museum-PRIVATE.apk
   ```
 
-- The default ARM64 build downloads the **3.7 MiB, model-free Phoenix 0.8.1-beta SDK** from [its release](https://github.com/RazvanManolache/dlss5-phoenix-addon/releases/tag/0.8.1-beta). Its SHA-256 is pinned in `build.py`; extraction rejects paths outside the build directory. The runtime contains CPU and Vulkan providers, shaders, the C++ runtime and license notices.
+- The default ARM64 build downloads the **1.6 MiB, model-free Phoenix 0.8.2 Android preview SDK** from [its release](https://github.com/RazvanManolache/dlss5-phoenix-addon/releases/tag/0.8.2-android-preview.1). Its SHA-256 is pinned in `build.py`; extraction rejects paths outside the build directory. The runtime contains CPU and Vulkan providers, shaders, the C++ runtime and license notices.
 - The museum's C++ and Java are compiled locally. Scene layout, actor catalogue and routes are generated from the pinned gallery source. Model hash validation precedes packaging.
 - Output is a **private local APK containing your external model and scene derivatives**. `dist/BUILDINFO.json` records dependency commits, selected ABIs and APK hash. Do not upload this APK as a model-free source release. Source licensing does not grant rights to redistribute separate model/asset inputs.
 - To compile just Java/C++ in a **fresh checkout**, without any model, assets or SDK download:
@@ -40,7 +40,7 @@
 ## Rebuild Phoenix / use an x86_64 emulator
 
 - Default phone builds use the released SDK. To change native Phoenix code, build the pinned `external/phoenix/native_runtime` instead.
-- Provide an existing host **glslang 16.6.0** executable built with `ENABLE_OPT=ON` and **Vulkan-Headers v1.4.365** (directory ending in `include`). Phoenix's [Vulkan CI](https://github.com/RazvanManolache/dlss5-phoenix-addon/blob/4c9b75ff42b6945352f66f309dc84404e498f4cf/.github/workflows/standalone.yml) documents those tool builds.
+- Provide an existing host **glslang 16.6.0** executable built with `ENABLE_OPT=ON` and **Vulkan-Headers v1.4.365** (directory ending in `include`). Phoenix's [Vulkan CI](https://github.com/RazvanManolache/dlss5-phoenix-addon/blob/b63b5399064aee0665da5d4c92b269cb1da0420c/.github/workflows/standalone.yml) documents those tool builds.
 
   ```sh
   python build.py --from-source --glslang /path/to/glslang --vulkan-headers /path/to/Vulkan-Headers/include
@@ -51,3 +51,5 @@
 - Keep toolchains outside this repository. Phoenix owns its backend sources; the direct submodules own the scene and runtime. Do not vendor either into the app.
 - Emulator Vulkan uses the host GPU. Its speed or support says nothing about your phone.
 - `device_test.py` retains status, screenshot and logs for a settings JSON; `verify_display.py` checks displayed pixels against saved input/output. Both accept `--adb`, `--serial`, `--output`. Use `--help` for details. Disable continually written display proofs before copying them so a capture cannot mix frames.
+
+- This preview includes the Fast GPU implementation. The separately runnable QNN prototypes are described in [FAST_GPU.md](FAST_GPU.md); the normal app build does not download or package QNN.

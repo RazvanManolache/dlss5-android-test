@@ -68,5 +68,13 @@ one completed model call per second. Frozen comparisons reuse scene targets
 between captures; dragging or changing settings refreshes the scene.
 See [measured performance](BENCHMARKS.md) for timings and limits.
 
+**Fast GPU (approximate arithmetic)** is a separate optional switch. It uses
+hardware arithmetic and mixed-precision matrix partial sums; output differs from
+the exact/reference mode. It automatically selects the compatible workgroup
+route. Turn it off to return to exact arithmetic. The HUD and result badges
+identify the mode of actual completed results. CPU selection keeps the reference
+backend. See [Fast GPU and NPU measurements](FAST_GPU.md) for paired timings,
+image errors, validation limits and the separate developer-only NPU prototype.
+
 
 See [build instructions](BUILD.md) and [measured performance](BENCHMARKS.md).
