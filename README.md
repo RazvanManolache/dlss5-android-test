@@ -38,5 +38,5 @@
 
 ### Small repo. Large ambitions.
 
-- Phoenix and gallery: **pinned submodules**. Weights, DLLs, APKs and museum assets stay outside Git.
+- **Pinned submodules**, with lean gallery checkout. Weights, DLLs, APKs and museum assets stay outside Git.
 - [Build locally](docs/BUILD.md): Android 9+, ARM64, OpenGL ES 3; Phoenix-compatible compute for Vulkan. Bring patience.

@@ -8,7 +8,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Initialize direct pinned dependencies
-        run: git submodule update --init external/phoenix external/gallery
+        run: python3 tools/init_dependencies.py
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'

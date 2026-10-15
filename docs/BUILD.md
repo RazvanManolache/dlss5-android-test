@@ -1,13 +1,14 @@
 # Build a local test APK
 
-- Clone this repository, then initialize only its two direct submodules:
+- Clone this repository, then initialize its two direct submodules:
 
   ```sh
-  git submodule update --init external/phoenix external/gallery
+  python tools/init_dependencies.py
   ```
 
-- Do not add `--recursive`: the desktop gallery's older nested Phoenix is unnecessary here.
-- Install Python 3.11–3.13 (3.12 recommended), JDK 17, Gradle 8.11.1, Android SDK platform 35, build-tools 35.0.0, NDK 27.3.13750724 and SDK CMake 3.22.1. Set `JAVA_HOME` and `ANDROID_HOME`.
+- The helper uses a partial, sparse gallery submodule: only scene source, its asset installer/manifest and licenses are checked out. Desktop comparison screenshots stay remote. It preserves already initialized submodules.
+- Standard `git submodule update --init external/phoenix external/gallery` also works, but downloads the desktop screenshots (~77 MiB). Do not add `--recursive`: the gallery's older nested Phoenix is unnecessary here.
+- Install Python 3.11â€“3.13 (3.12 recommended), JDK 17, Gradle 8.11.1, Android SDK platform 35, build-tools 35.0.0, NDK 27.3.13750724 and SDK CMake 3.22.1. Set `JAVA_HOME` and `ANDROID_HOME`.
 
   ```sh
   python -m pip install -r requirements.txt
