@@ -470,6 +470,97 @@
       "libQnnHtpV73Stub.so": "ef0d0cbbdd423a81c19fb0f60d1451b602bcd60c08b3564f1c82e632fb59f157",
       "libQnnSystem.so": "7e69258e1278cc9b2bb62dbc6e2a52c227a100d6505a13fd6324a87993d0bba8",
       "libQnnHtpV73Skel.so": "11c76e1d9bcc8a3168e47f73e48baba0da8e1ca03b7c429e4a5777eab5d20c5a"
+    },
+    "source_capture": {
+      "block": 0,
+      "first_window_batch": true,
+      "rows": 32768,
+      "hidden_channels": 128,
+      "channels": 32,
+      "source_sha256": {
+        "contract.f16": "b604baf44c7a6be84939f0b3659229d5ea491147761e2f1abe7197d5996b8597",
+        "ffn-reference.f32": "6b8a7f6647050e8ec9c2aa884f6fa01c6ff788658acea9876265426ae3a0bb12",
+        "gain.f32": "e942c53600932871e3b13400ec7ea01e3b0577a46ceafa18575ba4ae1144cbf3",
+        "input.f16": "d0e056fe3dac488c00ea01b5f857954b5b82bfdb5d0a700dcee4f27dafd43b6c",
+        "reference.f32": "ff80fe0add313c113e6badfaecb67be9f5e4cd21021a36780aaeac60bd0bbed5",
+        "skip.f16": "59ae354ceb1dd81c3a505bee5225c8b12db662a73adbff8ae9a3c220e7382938",
+        "weights.f16": "bacbd489101434df78d2d423a926719da3af76ed76b433204fe91943cddba27d"
+      }
+    },
+    "vulkan_reference": {
+      "projection_gpu_ms": [
+        13.836822578853607,
+        13.94473924288559,
+        13.529583003021239,
+        10.299062248558045,
+        10.321458081344604,
+        9.992916422698974,
+        10.36937474684143
+      ],
+      "ffn_gpu_ms": [
+        31.99265546892929,
+        20.880520323554993,
+        18.931457871139525,
+        16.22687460383606,
+        16.184687104866025,
+        16.179582938323975,
+        16.12463502299881
+      ],
+      "ffn_gpu_median_ms": 16.22687460383606,
+      "scope": "Exact reference, first 32768-row feed-forward batch, GPU events only; excludes host transfers and differs in arithmetic/power policy from QNN"
+    },
+    "projection": {
+      "backend": "QNN HTP",
+      "cpu_fallback": false,
+      "graph_finalize_ms": 106.414532,
+      "k": 32,
+      "m": 32768,
+      "median_call_ms": 2.805104,
+      "n": 128,
+      "precision": "w8a16",
+      "quantization": {
+        "calibration": "Absolute maxima of this same projection fixture, including reference output; no independent quality evaluation",
+        "input_scale": 8.392590098083019e-05,
+        "output_scale": 1.8968126823892817e-05,
+        "output_zero_point": 32768,
+        "weight_scale": 0.0049212598241865635
+      },
+      "scope": "Raw first block-0 expansion projection only; no gate, contraction, residual or full-model inference",
+      "soc_model": 68,
+      "warm_call_ms": [
+        2.43552,
+        2.421197,
+        2.438698,
+        2.375678,
+        2.532917,
+        2.718542,
+        2.598698,
+        2.605573,
+        2.524479,
+        2.936823,
+        2.964427,
+        2.898073,
+        2.836823,
+        2.894635,
+        2.904896,
+        2.907656,
+        2.815781,
+        2.819219,
+        2.879531,
+        2.794427
+      ]
     }
+  },
+  "delivery_validation": {
+    "app_source_commit": "f31c483",
+    "sdk_release": "0.8.2-android-preview.1",
+    "sdk_archive_sha256": "7a5b786442e18d708330d7375fa354426c17b700c8bfa5b02c25114eeacdf82d",
+    "fresh_public_clone_default_build": "passed: downloaded public SDK and built complete private APK with separately supplied local assets/model",
+    "physical_device_install": "passed: adb install -r, version 0.2.0",
+    "app_ci": "https://github.com/RazvanManolache/dlss5-android-test/actions/runs/38798649985",
+    "app_ci_result": "success",
+    "phoenix_ci": "https://github.com/RazvanManolache/dlss5-phoenix-addon/actions/runs/38796490425",
+    "phoenix_ci_result": "all five jobs passed",
+    "final_on_screen_switch_touch_pixel_check": "pending: phone locked; not claimed by headless numerical tests"
   }
 }
