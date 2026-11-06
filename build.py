@@ -80,7 +80,7 @@ def source_sdk(args, abi, sdk):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--sdk', type=Path, default=os.environ.get('ANDROID_HOME') or os.environ.get('ANDROID_SDK_ROOT'))
-    parser.add_argument('--gradle', help='Gradle 8.11.1 executable; defaults to PATH/GRADLE_HOME or existing wrapper cache')
+    parser.add_argument('--gradle', help='Gradle 9.8.2 executable; defaults to PATH/GRADLE_HOME or existing wrapper cache')
     parser.add_argument('--assets-root', type=Path, default=ROOT/'external/gallery')
     parser.add_argument('--local', type=Path, default=ROOT/'local.json')
     parser.add_argument('--code-only', action='store_true', help='Compile check only: produces no runnable museum and is never distributed')
@@ -122,9 +122,9 @@ def main():
     if not gradle and os.environ.get('GRADLE_HOME'):
         gradle = str(Path(os.environ['GRADLE_HOME'])/'bin'/executable)
     if not gradle:
-        gradle = next((Path.home()/'.gradle/wrapper/dists/gradle-8.11.1-bin').glob('*/gradle-8.11.1/bin/'+executable), None)
+        gradle = next((Path.home()/'.gradle/wrapper/dists/gradle-9.8.2-bin').glob('*/gradle-9.8.2/bin/'+executable), None)
     if not gradle:
-        parser.error('Install Gradle 8.11.1 or pass --gradle /path/to/gradle')
+        parser.error('Install Gradle 9.8.2 or pass --gradle /path/to/gradle')
     subprocess.run([str(gradle), '--no-daemon', '-PmuseumAbis='+','.join(abis), ':app:assembleDebug'], cwd=ROOT, check=True)
     if args.code_only:
         print('Model-free Java/C++ compile check passed. This APK is not a runnable museum.')
