@@ -1,0 +1,144 @@
+diff --git a/src/native/model/weight_source.h b/src/native/model/weight_source.h
+--- a/src/native/model/weight_source.h
++++ b/src/native/model/weight_source.h
+@@ -2,6 +2,7 @@
+ // Resource parsing checks lengths and digests before a runner receives tensor payloads.
+ 
+ #pragma once
++#include "../../common/utf8_path.h"
+ #ifdef _WIN32
+ #include <windows.h>
+ #include <bcrypt.h>
+@@ -63,7 +64,7 @@
+                 throw std::runtime_error("Model folder checksum belongs in model.json");
+             WeightSource result;
+             result.folder_mode = true;
+-            result.folder = std::filesystem::u8path(value.at("path").get<std::string>());
++            result.folder = phoenix_fs::from_utf8(value.at("path").get<std::string>());
+             if (result.folder.empty())
+                 throw std::runtime_error("Model folder path is empty");
+             result.validate();
+@@ -71,7 +72,7 @@
+         }
+         if (kind != "nvidia_dll")
+             throw std::runtime_error("Unknown weight source");
+-        WeightSource result{std::filesystem::u8path(value.at("path").get<std::string>()),
++        WeightSource result{phoenix_fs::from_utf8(value.at("path").get<std::string>()),
+                             value.at("sha256").get<std::string>()};
+         result.validate();
+         return result;
+@@ -297,7 +298,7 @@
+ inline std::filesystem::path folder_resource_path(const std::filesystem::path& folder,
+                                                   const Json& resource) {
+     const auto name = resource.at("path").get<std::string>();
+-    const auto relative = std::filesystem::u8path(name);
++    const auto relative = phoenix_fs::from_utf8(name);
+     if (name.empty() || name.find('\0') != std::string::npos ||
+         name.find(':') != std::string::npos || relative.has_root_path() || !relative.is_relative())
+         throw std::runtime_error("Model resource needs a relative file path");
+diff --git a/native_runtime/graph.h b/native_runtime/graph.h
+--- a/native_runtime/graph.h
++++ b/native_runtime/graph.h
+@@ -318,7 +318,7 @@
+         if (height == source.height && width == source.width)
+             return source;
+         demand(height >= source.height && width >= source.width, "Spatial padding cannot crop");
+-        return pointwise(source, phx::SpatialPad | phx::StoreHalf, height, width, source.channels,
++        return pointwise(source, static_cast<phx::u32>(phx::SpatialPad) | phx::StoreHalf, height, width, source.channels,
+                          nullptr, nullptr, 0, source.height, source.width, width);
+     }
+ 
+@@ -390,7 +390,7 @@
+                 emit(operation, operation.row_count);
+             } else {
+                 // V needs only head separation and the required publication.
+-                operation.flags = phx::SplitQkvHeads | phx::StoreHalf | (5 << 8);
++                operation.flags = static_cast<phx::u32>(phx::SplitQkvHeads) | phx::StoreHalf | (5 << 8);
+                 operation.column_count = channels;
+                 operation.left_batch_stride = tokens;
+                 operation.right_batch_stride = 2;
+@@ -470,7 +470,7 @@
+         emit(operation, uint64_t(batch) * head_count * tokens * 32);
+         auto merged = pointwise(
+             context,
+-            phx::MergeAttentionHeads | phx::StoreHalf | (5 << 8) | (global_attention ? 0x20000 : 0),
++            static_cast<phx::u32>(phx::MergeAttentionHeads) | phx::StoreHalf | (5 << 8) | (global_attention ? 0x20000 : 0),
+             batch, tokens, channels, nullptr, global_attention ? &inverse_normalizer : nullptr,
+             head_count, tokens);
+         return merged;
+@@ -496,14 +496,14 @@
+              first_window += window_batch_limit_) {
+             unsigned batch = std::min(window_batch_limit_, window_count - first_window);
+             auto gathered =
+-                pointwise(source, phx::GatherWindowBatch | phx::StoreHalf, batch, 64, channels,
++                pointwise(source, static_cast<phx::u32>(phx::GatherWindowBatch) | phx::StoreHalf, batch, 64, channels,
+                           nullptr, nullptr, first_window, source.height, source.width,
+                           windows_across, (top_padding << 16) | left_padding);
+             auto merged = attention_windows(gathered, block, layer, false);
+             phx::Operation operation{};
+             operation.left_input = merged.ptr();
+             operation.output = result.ptr();
+-            operation.flags = phx::ScatterWindowBatch | phx::StoreHalf | phx::LeftInputHalf;
++            operation.flags = static_cast<phx::u32>(phx::ScatterWindowBatch) | phx::StoreHalf | phx::LeftInputHalf;
+             operation.column_count = channels;
+             operation.batch_count = first_window;
+             operation.left_batch_stride = source.height;
+@@ -538,12 +538,12 @@
+             Tensor gathered;
+             if (skip) {
+                 demand(blend_gains, "Post blend gain missing");
+-                gathered = pointwise(source, phx::GatherUpsampleBlendBatch | phx::StoreHalf, batch,
++                gathered = pointwise(source, static_cast<phx::u32>(phx::GatherUpsampleBlendBatch) | phx::StoreHalf, batch,
+                                      64, channels, skip, blend_gains, first_window, height, width,
+                                      windows_across, (top_padding << 16) | left_padding,
+                                      float(source.width));
+             } else {
+-                gathered = pointwise(source, phx::GatherWindowBatch | phx::StoreHalf, batch, 64,
++                gathered = pointwise(source, static_cast<phx::u32>(phx::GatherWindowBatch) | phx::StoreHalf, batch, 64,
+                                      source.channels, nullptr, nullptr, first_window, height, width,
+                                      windows_across, (top_padding << 16) | left_padding);
+             }
+@@ -612,11 +612,11 @@
+             if (pooled) {
+                 operation.output = pooled_result.ptr();
+                 operation.secondary_output = result.ptr();
+-                operation.flags = phx::ScatterWindowBatchAndPool | phx::StoreHalf | (1 << 8);
++                operation.flags = static_cast<phx::u32>(phx::ScatterWindowBatchAndPool) | phx::StoreHalf | (1 << 8);
+             } else {
+                 operation.output = result.ptr();
+                 operation.flags =
+-                    phx::ScatterWindowBatch | phx::StoreHalf | ((keep_half ? 4 : 5) << 8);
++                    static_cast<phx::u32>(phx::ScatterWindowBatch) | phx::StoreHalf | ((keep_half ? 4 : 5) << 8);
+             }
+             emit(operation, accumulator.size());
+         }
+@@ -716,7 +716,7 @@
+         }
+         return pointwise(
+             projected,
+-            phx::UpsampleResidual | phx::StoreHalf | ((skip.channels == 32 ? 4 : 5) << 8),
++            static_cast<phx::u32>(phx::UpsampleResidual) | phx::StoreHalf | ((skip.channels == 32 ? 4 : 5) << 8),
+             skip.height, skip.width, skip.channels, &skip, &gains, 0, skip.width, source.width);
+     }
+ 
+diff --git a/src/common/utf8_path.h b/src/common/utf8_path.h
+new file mode 100644
+--- /dev/null
++++ b/src/common/utf8_path.h
+@@ -0,0 +1,16 @@
++#pragma once
++#include <filesystem>
++#include <string>
++#include <string_view>
++
++namespace phoenix_fs {
++// Preserve UTF-8 semantics on Windows as well as POSIX. A narrow path(string)
++// would interpret JSON and command-line paths using the Windows code page.
++inline std::filesystem::path from_utf8(std::string_view bytes) {
++#if defined(__cpp_char8_t)
++    return std::filesystem::path(std::u8string(bytes.begin(), bytes.end()));
++#else
++    return std::filesystem::u8path(bytes.begin(), bytes.end());
++#endif
++}
++}

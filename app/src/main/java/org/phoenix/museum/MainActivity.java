@@ -36,16 +36,35 @@ public class MainActivity extends Activity {
     ArrayList<String> labels=new ArrayList<>();
     String selectedDevice=""; int focused=-1; long fpsStart=0; int fpsFrames=0; volatile double fps=0;
     private int dp(float n){return (int)(getResources().getDisplayMetrics().density*n+.5f);}
+    private void hideSystemBars() {
+        if (Build.VERSION.SDK_INT >= 30) {
+            WindowInsetsController controller = getWindow().getInsetsController();
+            if (controller != null) {
+                controller.setSystemBarsBehavior(WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE);
+                controller.hide(WindowInsets.Type.systemBars());
+            }
+        } else {
+            hideLegacySystemBars();
+        }
+    }
+    // Android 9/10 are still supported and have no WindowInsetsController.
+    @SuppressWarnings("deprecation")
+    private void hideLegacySystemBars() {
+        getWindow().getDecorView().setSystemUiVisibility(
+            View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_FULLSCREEN |
+            View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
+            View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
+    }
     void put(String key,Object value){try{config.put(key,value); options=config.toString(); getPreferences(0).edit().putString("options",options).apply();}catch(Exception e){throw new RuntimeException(e);}}
     @Override public void onCreate(Bundle state){
         super.onCreate(state);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        getWindow().getDecorView().setSystemUiVisibility(5894);
         try {config=new JSONObject(getPreferences(0).getString("options","{}"));}catch(Exception ignored){}
         if(!config.has("backend")) {put("backend","vulkan");put("view",1);put("resolution",320);put("left_quality",3);put("right_quality",3);put("left_phoenix",0);put("right_phoenix",0);put("animation",true);put("faces",true);put("lights",true);put("orbit",false);put("focus",-1);put("framing",0);put("left_detail",1);put("right_detail",1);put("passes",1);put("repeats",new JSONArray(Arrays.asList(1,1,1,1,1,1,1,1)));put("intensity",1.0);put("local_tone",1.0);put("local_structure",1.0);put("skin_structure",-1.0);put("auto_mask",true);put("style",0);put("seed",0);put("cpu_threads",4);}
         try {String overrides=getIntent().getStringExtra("test_options");if(overrides!=null){JSONObject changes=new JSONObject(overrides);Iterator<String> keys=changes.keys();while(keys.hasNext()){String key=keys.next();config.put(key,changes.get(key));}}}catch(Exception e){throw new RuntimeException("Invalid test options",e);}
         options=config.toString(); focused=config.optInt("focus",-1);zoom=focused<0?7.6f:1f;yaw=focused<0?.42f:.3f;
         FrameLayout root=new FrameLayout(this);setContentView(root);
+        hideSystemBars();
         surface=new GLSurfaceView(this); surface.setEGLContextClientVersion(3);surface.setPreserveEGLContextOnPause(true);
         surface.setRenderer(new GLSurfaceView.Renderer(){
             public void onSurfaceCreated(GL10 gl,EGLConfig cfg){contextCreated();}

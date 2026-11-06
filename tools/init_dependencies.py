@@ -41,5 +41,19 @@ def main():
         print(relative+': '+commit[:12])
 
 
+    # Keep the audited SDK revision; apply only reviewed compiler compatibility fixes.
+    phoenix = ROOT/'external/phoenix'
+    expected = subprocess.check_output(['git', 'ls-files', '--stage', 'external/phoenix'], cwd=ROOT, text=True).split()[1]
+    actual = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=phoenix, text=True).strip()
+    if actual != expected:
+        raise RuntimeError('Phoenix revision differs from pinned gitlink')
+    patch = str(ROOT/'tools/phoenix-compiler-compat.patch')
+    applied = subprocess.run(['git', 'apply', '--reverse', '--check', patch], cwd=phoenix, capture_output=True)
+    if applied.returncode != 0:
+        git('apply', '--check', patch, cwd=phoenix)
+        git('apply', patch, cwd=phoenix)
+    print('Phoenix compiler compatibility patch ready')
+
+
 if __name__ == '__main__':
     main()
